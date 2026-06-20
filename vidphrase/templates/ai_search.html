@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VidPhrase AI</title>
+    <!-- https://i.ibb.co/tWwpV5P/vidphrase-white-modified.png -->
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/FLLrRf4T/Vidphrase-black-modified.png">     <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body class="ai-theme">
+    <a href="/"
+    class="theme-toggle-btn classic-mode-btn"
+    aria-label="Back to main search"
+    style="top: 20px; color:#ff4d4d; transition: transform 0.3s ease;"
+
+    onmouseover="this.style.transform='scale(1.05)';"
+    onmouseout="this.style.transform='scale(1)';">
+    <svg fill="currentColor" viewBox="-4.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>youtube</title> <path d="M9.72 20.16v0c-0.8 0-1.32-0.6-1.36-1.44 0-0.16 0-5.44 0-5.48 0.040-0.8 0.6-1.4 1.36-1.4 0.24 0 0.48 0.040 0.68 0.16 0.44 0.24 5.24 2.84 5.24 2.84 0.44 0.28 0.68 0.68 0.68 1.12s-0.24 0.84-0.64 1.12c0 0-5.24 2.84-5.28 2.88-0.2 0.12-0.44 0.2-0.68 0.2zM10.040 13.68v4.52c0 0.040 0 0.080 0 0.080l4.24-2.28c0 0-3.96-2.16-4.24-2.32zM11.52 24.48c-2.44 0-5.4-0.2-7.72-0.48-2-0.24-3.12-1.28-3.44-3.16-0.24-1.24-0.36-2.96-0.36-4.84s0.12-3.6 0.32-4.84c0.32-1.88 1.44-2.92 3.44-3.16 2.32-0.28 5.28-0.48 7.72-0.48s5.4 0.2 7.72 0.48c2 0.24 3.12 1.28 3.44 3.16 0.2 1.24 0.32 2.96 0.32 4.84s-0.12 3.6-0.32 4.84c-0.32 1.88-1.44 2.92-3.44 3.16-2.28 0.28-5.24 0.48-7.68 0.48zM11.52 9.16c-2.36 0-5.24 0.16-7.48 0.44-1.48 0.2-1.88 0.88-2.040 1.84-0.2 1.2-0.32 2.8-0.32 4.56s0.12 3.36 0.32 4.52c0.16 0.96 0.6 1.64 2.040 1.84 2.24 0.28 5.12 0.44 7.48 0.44s5.24-0.16 7.48-0.44c1.48-0.2 1.88-0.88 2.040-1.84 0.2-1.16 0.32-2.76 0.32-4.52s-0.12-3.36-0.32-4.52c-0.16-0.96-0.6-1.64-2.040-1.84-2.24-0.28-5.12-0.48-7.48-0.48z"></path> </g></svg>        <span>Main Search</span>
+    </a>
+    <a style="top: 64px;" href="/ai_search" class="theme-toggle-btn ai-mode-btn" aria-label="Switch to AI Search">
+        <svg viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#b388ff" stroke="#d190ff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>ai</title> <g id="Page-1" stroke="none" stroke-width="1" fill-rule="evenodd"> <g id="icon" fill="#b388ff" transform="translate(64.000000, 64.000000)"> <path d="M320,64 L320,320 L64,320 L64,64 L320,64 Z M171.749388,128 L146.817842,128 L99.4840387,256 L121.976629,256 L130.913039,230.977 L187.575039,230.977 L196.319607,256 L220.167172,256 L171.749388,128 Z M260.093778,128 L237.691519,128 L237.691519,256 L260.093778,256 L260.093778,128 Z M159.094727,149.47526 L181.409039,213.333 L137.135039,213.333 L159.094727,149.47526 Z M341.333333,256 L384,256 L384,298.666667 L341.333333,298.666667 L341.333333,256 Z M85.3333333,341.333333 L128,341.333333 L128,384 L85.3333333,384 L85.3333333,341.333333 Z M170.666667,341.333333 L213.333333,341.333333 L213.333333,384 L170.666667,384 L170.666667,341.333333 Z M85.3333333,0 L128,0 L128,42.6666667 L85.3333333,42.6666667 L85.3333333,0 Z M256,341.333333 L298.666667,341.333333 L298.666667,384 L256,384 L256,341.333333 Z M170.666667,0 L213.333333,0 L213.333333,42.6666667 L170.666667,42.6666667 L170.666667,0 Z M256,0 L298.666667,0 L298.666667,42.6666667 L256,42.6666667 L256,0 Z M341.333333,170.666667 L384,170.666667 L384,213.333333 L341.333333,213.333333 L341.333333,170.666667 Z M0,256 L42.6666667,256 L42.6666667,298.666667 L0,298.666667 L0,256 Z M341.333333,85.3333333 L384,85.3333333 L384,128 L341.333333,128 L341.333333,85.3333333 Z M0,170.666667 L42.6666667,170.666667 L42.6666667,213.333333 L0,213.333333 L0,170.666667 Z M0,85.3333333 L42.6666667,85.3333333 L42.6666667,128 L0,128 L0,85.3333333 Z" id="Combined-Shape"> </path> </g> </g> </g></svg>
+        <span>AI Search Mode</span>
+    </a>
+   <a href="/whisper_search"
+    class="theme-toggle-btn raw-mode-btn"
+    aria-label="Whisper search page"
+    style="
+            top: 108px;
+            color: #93c5fd;
+            transition: all 0.3s ease;
+    "
+    onmouseover="
+    this.style.transform='scale(1.05)';
+    this.style.boxShadow='0 0 20px rgba(59,130,246,0.6)';
+    this.style.borderColor='#3b82f6';
+    "
+    onmouseout="
+        this.style.transform='scale(1)';
+        this.style.boxShadow='none';
+        this.style.borderColor='#303030';
+    ">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5.625 15C5.625 14.5858 5.28921 14.25 4.875 14.25C4.46079 14.25 4.125 14.5858 4.125 15H5.625ZM4.875 16H4.125H4.875ZM19.275 15C19.275 14.5858 18.9392 14.25 18.525 14.25C18.1108 14.25 17.775 14.5858 17.775 15H19.275ZM12.2914 5.46127C12.5461 5.13467 12.4879 4.66338 12.1613 4.40862C11.8347 4.15387 11.3634 4.21212 11.1086 4.53873L12.2914 5.46127ZM7.20862 9.53873C6.95387 9.86533 7.01212 10.3366 7.33873 10.5914C7.66533 10.8461 8.13662 10.7879 8.39138 10.4613L7.20862 9.53873ZM12.2914 4.53873C12.0366 4.21212 11.5653 4.15387 11.2387 4.40862C10.9121 4.66338 10.8539 5.13467 11.1086 5.46127L12.2914 4.53873ZM15.0086 10.4613C15.2634 10.7879 15.7347 10.8461 16.0613 10.5914C16.3879 10.3366 16.4461 9.86533 16.1914 9.53873L15.0086 10.4613ZM12.45 5C12.45 4.58579 12.1142 4.25 11.7 4.25C11.2858 4.25 10.95 4.58579 10.95 5H12.45ZM10.95 16C10.95 16.4142 11.2858 16.75 11.7 16.75C12.1142 16.75 12.45 16.4142 12.45 16H10.95ZM4.125 15V16H5.625V15H4.125ZM4.125 16C4.125 18.0531 5.75257 19.75 7.8 19.75V18.25C6.61657 18.25 5.625 17.2607 5.625 16H4.125ZM7.8 19.75H15.6V18.25H7.8V19.75ZM15.6 19.75C17.6474 19.75 19.275 18.0531 19.275 16H17.775C17.775 17.2607 16.7834 18.25 15.6 18.25V19.75ZM19.275 16V15H17.775V16H19.275ZM11.1086 4.53873L7.20862 9.53873L8.39138 10.4613L12.2914 5.46127L11.1086 4.53873ZM11.1086 5.46127L15.0086 10.4613L16.1914 9.53873L12.2914 4.53873L11.1086 5.46127ZM10.95 5V16H12.45V5H10.95Z" fill="#93c5fd"></path> </g></svg>
+    
+    <span>Whisper Search</span>
+    </a>
+
+    <a href="https://github.com/WhiteeRabbit" target="_blank" class="github-btn" aria-label="GitHub Repository">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        </svg>
+        <span>GitHub</span>
+    </a>
+
+    <div id="loading-screen" class="loading-overlay">
+        <div class="loader"></div>
+        <p>AI is analyzing the video context, please wait...</p>
+    </div>
+
+    <form accept-charset="UTF-8" id="searchForm" action="/ai_search" class="page-form" method="post">
+        <div class="brand-header">
+            <h1 class="brand-title">VidPhrase <span class="ai-badge">AI</span></h1>
+            <div class="brand-subtitle">Smart Semantic Search inside Videos</div>
+        </div>
+
+        <div class="search-wrapper">
+            <select name="search_lang" class="search-select">
+                <option value="en" {% if search_lang == "en" %}selected{% endif %}>ENG</option>
+                <option value="ru" {% if search_lang == "ru" %}selected{% endif %}>RUS</option>
+                <option value="it" {% if search_lang == "it" %}selected{% endif %}>ITA</option>
+                <option value="tr" {% if search_lang == "tr" %}selected{% endif %}>TUR</option>
+                <option value="az" {% if search_lang == "az" %}selected{% endif %}>AZE</option>
+                <option value="fr" {% if search_lang == "fr" %}selected{% endif %}>FRA</option>
+                <option value="hi" {% if search_lang == "hi" %}selected{% endif %}>HIN</option>
+                <option value="de" {% if search_lang == "de" %}selected{% endif %}>DEU</option>
+                <option value="ja" {% if search_lang == "ja" %}selected{% endif %}>JPN</option>
+            </select>
+
+            <div class="input-group">
+                <input autocomplete="off" name="video_url" value="{{ video_url }}" type="text" class="input-field" placeholder="Video link">
+                <div class="divider"></div>
+                <input autocomplete="off" name="phrase" value="{{ phrase }}" type="text" class="input-field" placeholder="Ask AI anything (synonyms work too!)...">
+            </div>
+
+            <button type="submit" class="search-button">
+                <svg viewBox="0 0 24 24">
+                    <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+            </button>
+        </div>
+
+        {% if error %}
+            <div class="error-box">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        {% if results %}
+        <div class="table-wrapper">
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Match Status</th>
+                        <th>Time</th>
+                        <th>Text Found</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for row in results %}
+                <tr>
+                    <td>{{ row.percentage }}</td>
+                    <td>{{ row.time }}</td>
+                    <td>{{ row.text }}</td>
+                    <td>
+                        <a href="{{ row.link }}" target="_blank">Open</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="download-wrap">
+                <button
+                    type="submit"
+                    formaction="/download_subtitles"
+                    formmethod="post"
+                    class="download-btn"
+                >
+                    Download subtitles
+                </button>
+            </div>
+        </div>
+        {% endif %}
+    </form>
+
+    {% if not results and not error %}
+    <div class="project-section" id="projectSection">
+        <h2>About AI Semantic Search</h2>
+        <p>
+            Powered by Gemini, this mode doesn't just look for exact word matches. It understands the underlying context, concepts, and synonyms. If someone in the video says "automobile", searching for "car" will successfully catch it!
+        </p>
+    </div>
+    {% endif %}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchForm = document.getElementById("searchForm");
+            const loadingScreen = document.getElementById("loading-screen");
+            const projectSection = document.getElementById("projectSection");
+            const downloadWrap = document.querySelector(".download-wrap");
+
+            if (searchForm) {
+                searchForm.addEventListener("submit", function (e) {
+                    if (
+                        e.submitter &&
+                        (
+                            e.submitter.classList.contains("download-btn") ||
+                            (e.submitter.formAction && e.submitter.formAction.includes("/download_subtitles"))
+                        )
+                    ) {
+                        return;
+                    }
+
+                    if (projectSection) {
+                        projectSection.style.display = "none";
+                    }
+
+                    if (downloadWrap) {
+                        downloadWrap.style.display = "none";
+                    }
+
+                    const url = document.getElementsByName("video_url")[0]?.value || "";
+                    const phrase = document.getElementsByName("phrase")[0]?.value || "";
+
+                    if (url && phrase && loadingScreen) {
+                        loadingScreen.style.display = "flex";
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script src="../static/js/script.js"></script>
+</body>
+</html>
