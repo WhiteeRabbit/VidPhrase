@@ -1,0 +1,7 @@
+Flask
+yt-dlp
+thefuzz
+google-genai
+faster-whisper
+Werkzeug
+browser-cookie3
