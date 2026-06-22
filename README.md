@@ -223,7 +223,7 @@ client = genai.Client(api_key="GEMINI_API_TOKEN")
 with your own API key:
 
 ```python
-client = genai.Client(api_key="YOUR_GEMINI_API_KEY")
+api_key="YOUR_GEMINI_API_KEY"
 ```
 
 Without a valid Gemini API key, AI Semantic Search will not work.
