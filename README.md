@@ -1,9 +1,8 @@
 # VidPhrase
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/73426fd1-27cc-400f-bed1-854bf1671950" alt="VidPhrase" width="1000">
+  <img src="https://github.com/user-attachments/assets/32dd351b-e977-44b1-923e-505e3f1aa8d2" width="969" alt="vidphrs">
 </p>
-
 <p align="center">
   <strong>
     Search phrases inside YouTube videos, uploaded video and audio files using subtitles, comments, descriptions, and AI-powered semantic search.
