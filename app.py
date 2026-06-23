@@ -15,6 +15,7 @@ from google.genai import types
 from faster_whisper import WhisperModel
 from werkzeug.utils import secure_filename
 
+
 warnings.filterwarnings("ignore")
 os.environ["GRPC_VERBOSITY"] = "NONE"
 
@@ -22,8 +23,6 @@ app = Flask(__name__)
 
 SUPPORTED_LANGS = ["en", "ru", "it", "tr", "az", "fr", "hi", "de", "ja"]
 
-
-# HERE YOU CAN ADD YOUR YOUTUBE COOKIE FILES
 COOKIE_FILES = [
     "./cookies/cookies_1.txt",
     "./cookies/cookies_2.txt",
@@ -35,11 +34,12 @@ COOKIE_FILES = [
 THRESHOLD = 68
 RAW_THRESHOLD = 69
 
+################### ADD HERE YOUR TOKEN ######################
 client = genai.Client(api_key="YOUR_GEMINI_API_TOKEN")
+################### ADD HERE YOUR TOKEN ######################
 
 RAW_TRANSCRIPTS = {}
 WHISPER_MODEL = None
-
 
 def get_whisper_model():
     global WHISPER_MODEL
@@ -232,80 +232,34 @@ def download_data(video_url):
 
 def get_ai_answer(subtitles, user_query):
     prompt = f"""
-You are an advanced semantic video search engine with deep contextual understanding.
+You are an advanced, meticulous semantic video search engine with deep contextual understanding.
+Your goal is to inspect the provided subtitles step-by-step and find EVERY SINGLE moment that contains actual, highly relevant informational value regarding the user's query.
 
-Analyze the provided subtitles and find ALL moments that are related to the user's query, even if the exact words are never mentioned.
+CRITICAL INSTRUCTION:
+Do not just look for the exact query word. You must return segments that contain specific brands, products, tools, companies, developers, or core concepts associated with the query, even if the general term is omitted in that specific line.
+- If the query is "AI": match OpenAI, Gemini, ChatGPT, Claude, Sam Altman, etc.
+- If the query is "hacking/cybersecurity": match Kali Linux, VirtualBox, Nmap, penetration testing, repository, etc.
+- Handle cross-lingual matching: If the query is in one language (e.g., Russian/Azerbaijani) and subtitles are in another (e.g., English), translate the intent semantically to find matches.
 
-SEARCH STRATEGY:
+SEARCH STRATEGY & CONTEXT:
+1. Direct mentions & strict keywords.
+2. Core synonyms and technical ecosystem tools.
+3. Look at the surrounding lines to understand the true context of the current line. If a line makes sense ONLY because of the previous line, evaluate its relevance based on that shared context.
 
-1. Match direct mentions.
-2. Match synonyms.
-3. Match abbreviations and acronyms.
-4. Match broader concepts.
-5. Match narrower concepts.
-6. Match related technologies.
-7. Match products, platforms, frameworks, vendors, brands, and services commonly associated with the query.
-8. Match descriptions, explanations, examples, use cases, analogies, and discussions that imply the same idea.
-
-Examples:
-
-- Query: "cloud technologies"
-  Match:
-  AWS, Amazon Web Services, EC2, S3,
-  Google Cloud, GCP,
-  Azure, Microsoft Azure,
-  Kubernetes, Docker,
-  cloud infrastructure,
-  cloud computing,
-  distributed systems,
-  serverless,
-  SaaS, PaaS, IaaS,
-  hosting platforms,
-  virtual machines,
-  containers.
-
-- Query: "artificial intelligence"
-  Match:
-  AI, machine learning, ML,
-  neural networks,
-  LLM,
-  ChatGPT,
-  GPT,
-  transformers,
-  deep learning,
-  computer vision,
-  generative AI.
-
-- Query: "car"
-  Match:
-  vehicle,
-  automobile,
-  sedan,
-  SUV,
-  truck,
-  BMW,
-  Mercedes,
-  Tesla,
-  driving,
-  transportation.
-
-IMPORTANT:
-
-- Do not require keyword overlap.
-- Use conceptual understanding.
-- Find every semantically relevant segment.
-- Multiple results are preferred over missing relevant content.
-- Return all relevant matches.
-- If uncertain, include the result rather than excluding it.
-
+STRICT RELEVANCE & FILTERING RULES:
+- Scan the subtitles thoroughly from start to finish. Do not stop early.
+- EXCLUDE meta-talk, filler phrases, channel promotions, and generic transitions (e.g., "links in the description", "tip of the iceberg", "stay safe", "in this video I will show", "subscribe to the channel", "thanks for watching") UNLESS they contain a direct, critical keyword.
+- STRICT SCORING SCALE:
+  * 90-100: Direct mention of the keyword, its explicit synonym, or a core tool/brand (e.g., "Kali Linux" for a hacking query).
+  * 71-89: Clear, undisputed semantic discussion of the topic without naming specific brands.
+  * Below 71: Broad context, filler lines, transitions, or weak associations.
+- CRITICAL FILTER: If a line's score is below 71, ABSOLUTELY ELIMINATE it from the output array. Do not return any object with a relevance_score lower than 71.
 For each result provide:
-
 {{
   "start_time": "...",
   "text": "...",
-  "relevance_score": 50-100
+  "relevance_score": 70-100
 }}
-
 User Query:"{user_query}"
     
     Subtitles (JSON format):
@@ -322,14 +276,14 @@ User Query:"{user_query}"
                 "items": {
                     "type": "OBJECT",
                     "properties": {
-                        "start_time": {"type": "NUMBER", "description": "The exact start time in seconds (float or int)"},
-                        "matched_text": {"type": "STRING", "description": "The exact text phrase from subtitles that matched"},
+                        "start_time": {"type": "NUMBER", "description": "The 'start' timestamp in seconds from the matching subtitle segment"},
+                        "matched_text": {"type": "STRING", "description": "The exact 'text' content of the matching subtitle segment"},
                         "relevance_score": {"type": "INTEGER", "description": "Semantic matching confidence score from 50 to 100"}
                     },
                     "required": ["start_time", "matched_text", "relevance_score"],
                 },
             },
-            temperature=0.2
+            temperature=0.1
         ),
     )
     return json.loads(response.text)
@@ -460,7 +414,6 @@ def search_in_raw_segments(segments, phrase):
 def index():
     return render_template('index.html')
 
-
 @app.route('/ai_search', methods=['GET', 'POST'])
 def handle_ai_search():
     if request.method == 'GET':
@@ -475,24 +428,16 @@ def handle_ai_search():
 
     if not video_url or not phrase:
         return render_template(
-            "ai_search.html",
-            results=None,
-            error="Please fill all fields!",
-            video_url=video_url,
-            phrase=phrase,
-            search_lang=search_lang
+            "ai_search.html", results=None, error="Please fill all fields!",
+            video_url=video_url, phrase=phrase, search_lang=search_lang
         )
 
     normalized_url = extract_video_url(video_url)
     video_id = extract_video_id(video_url)
     if not normalized_url or not video_id:
         return render_template(
-            "ai_search.html",
-            results=None,
-            error="Not valid youtube link",
-            video_url=video_url,
-            phrase=phrase,
-            search_lang=search_lang
+            "ai_search.html", results=None, error="Not valid youtube link",
+            video_url=video_url, phrase=phrase, search_lang=search_lang
         )
 
     try:
@@ -510,18 +455,25 @@ def handle_ai_search():
 
         if not subtitles_list:
             return render_template(
-                "ai_search.html",
-                results=None,
-                error="No subtitles found for this language.",
-                video_url=video_url,
-                phrase=phrase,
-                search_lang=search_lang
+                "ai_search.html", results=None, error="No subtitles found for this language.",
+                video_url=video_url, phrase=phrase, search_lang=search_lang
             )
 
-        ai_matches = get_ai_answer(subtitles_list, phrase)
+        ai_matches = []
+        CHUNK_SIZE = 200
+
+        for i in range(0, len(subtitles_list), CHUNK_SIZE):
+            chunk = subtitles_list[i:i + CHUNK_SIZE]
+            try:
+                chunk_results = get_ai_answer(chunk, phrase)
+                if isinstance(chunk_results, list):
+                    ai_matches.extend(chunk_results)
+            except Exception as e:
+                print(f"CHUNK ERROR {i}-{i+CHUNK_SIZE}: {e}")
+                continue 
         
         results = []
-        if isinstance(ai_matches, list):
+        if ai_matches:
             for match in ai_matches:
                 start_seconds = match.get("start_time", 0)
                 matched_phrase = match.get("matched_text", "")
@@ -542,31 +494,19 @@ def handle_ai_search():
 
         if not results:
             return render_template(
-                "ai_search.html",
-                results=None,
-                error="AI couldn't find any matching contexts.",
-                video_url=video_url,
-                phrase=phrase,
-                search_lang=search_lang
+                "ai_search.html", results=None, error="AI couldn't find any matching contexts.",
+                video_url=video_url, phrase=phrase, search_lang=search_lang
             )
 
         return render_template(
-            "ai_search.html",
-            results=results,
-            error=None,
-            video_url=video_url,
-            phrase=phrase,
-            search_lang=search_lang
+            "ai_search.html", results=results, error=None,
+            video_url=video_url, phrase=phrase, search_lang=search_lang
         )
 
     except Exception as e:
         return render_template(
-            "ai_search.html",
-            results=None,
-            error=f"Error: {str(e)}",
-            video_url=video_url,
-            phrase=phrase,
-            search_lang=search_lang
+            "ai_search.html", results=None, error=f"Error: {str(e)}",
+            video_url=video_url, phrase=phrase, search_lang=search_lang
         )
 
 
@@ -799,17 +739,24 @@ def raw_search():
         try:
             if search_mode == "ai":
                 ai_input = [
-                    {
-                        "start": seg.get("start", 0),
-                        "text": seg.get("text", "")
-                    }
+                    {"start": seg.get("start", 0), "text": seg.get("text", "")}
                     for seg in segments
                 ]
 
-                ai_matches = get_ai_answer(ai_input, phrase)
-                results = []
+                ai_matches = []
+                CHUNK_SIZE = 200
+                for i in range(0, len(ai_input), CHUNK_SIZE):
+                    chunk = ai_input[i:i+CHUNK_SIZE]
+                    try:
+                        chunk_results = get_ai_answer(chunk, phrase)
+                        if isinstance(chunk_results, list):
+                            ai_matches.extend(chunk_results)
+                    except Exception as e:
+                        print(f"Whisper AI ERROR: {e}")
+                        continue
 
-                if isinstance(ai_matches, list):
+                results = []
+                if ai_matches:
                     for match in ai_matches:
                         start_seconds = match.get("start_time", 0)
                         matched_phrase = match.get("matched_text", "")
