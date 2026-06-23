@@ -83,9 +83,8 @@ Possible matches:
 - LLMs
 - ChatGPT
 - GPT
-- Transformers
-- Generative AI
-
+- Gemini
+- Qwen
 ---
 
 **Query**
