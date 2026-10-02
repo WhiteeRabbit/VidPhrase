@@ -285,6 +285,16 @@ http://127.0.0.1:9005
 6. Jump directly to the relevant moment and continue from the surrounding context.
 
 ---
+## 🚀 Recent Major Updates & Architecture
+
+VidPhrase has undergone a massive backend refactoring to support high-concurrency, asynchronous media processing and optimized AI retrieval:
+
+* **⚡ Asynchronous Task Architecture:** Powered by `ThreadPoolExecutor` and a state-managed background worker queue. Operations like speech-to-text transcription and LLM contextual parsing no longer block the main HTTP server thread.
+* **🎮 Smart GPU / Hardware Acceleration:** Automatically detects available NVIDIA CUDA hardware via `cTranslate2` to run Faster-Whisper on `float16` precision, falling back gracefully to `int8` CPU execution.
+* **🧹 Automatic Resource Lifecycle & Cleanup:** Features automated temporary file lifecycle management. High-capacity raw media files are immediately purged post-transcription, while a background cleanup thread handles stale memory entries via a TTL mechanism.
+* **🧠 Robust AI Response Parsing:** Integrated dynamic regex pattern matchers alongside JSON Schema definitions to guarantee valid array formatting from LLM outputs under high latency or varied responses.
+* **🔍 Accelerated Fuzzy Text Matching:** Implemented pre-tokenized word intersection filtering prior to ratio calculations, significantly reducing CPU cycles on large subtitle/comment lists.
+
 
 ## 📁 Project Structure
 
